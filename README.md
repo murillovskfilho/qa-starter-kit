@@ -1,5 +1,10 @@
 # QA Starter Kit — Playwright + TypeScript
 
+[![tests](https://github.com/murillovskfilho/qa-starter-kit/actions/workflows/tests.yml/badge.svg)](https://github.com/murillovskfilho/qa-starter-kit/actions/workflows/tests.yml)
+![Playwright](https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue)
+
 A clean, production-ready starting point for test automation. Clone it, point it at your app,
 and have UI and API tests running in CI in under an hour, without spending a week on boilerplate.
 
@@ -16,7 +21,7 @@ before you change a single line.
 | **Typed fixtures**: Page Objects and API clients injected into each test, already set up | `src/fixtures/index.ts` |
 | **Parallel-safe test data**: factories generate unique values, so tests never depend on each other | `src/fixtures/factories.ts` |
 | **Multi-environment config** (`dev`, `staging`), switchable with one variable or overridable per URL | `src/config/environments.ts` |
-| **CI on GitHub Actions**: typecheck, 2 parallel shards, retries with traces, one merged HTML report, nightly run | `.github/workflows/tests.yml` |
+| **CI on GitHub Actions**: typecheck, 2 parallel shards, retries with traces, one merged HTML report, nightly run. Read-only token, actions pinned to commit SHAs | `.github/workflows/tests.yml` |
 | Debug artifacts: trace on retry, screenshot and video on failure | `playwright.config.ts` |
 
 ## Quick start
@@ -85,16 +90,16 @@ In CI, run the workflow manually and pick the environment from the dropdown.
 └── playwright.config.ts
 ```
 
-## Pro version
+## Pro version (in development)
 
-**QA Starter Kit Pro** adds AI-assisted tooling on top of this base:
+**QA Starter Kit Pro** will add AI-assisted tooling on top of this base:
 
 - **Failure triage**: reads the test results, groups similar failures and labels each one as a likely
   flaky test, a real bug or an environment issue, with an explanation.
 - **Test generation from OpenAPI**: turns your API spec into ready-to-edit API test files.
 - **User story → test cases**: turns a story into manual test cases and an automated test skeleton.
 
-Coming soon.
+Watch or star this repository to hear when it ships.
 
 ## License
 
