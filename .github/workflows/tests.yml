@@ -38,6 +38,11 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    # Official Playwright image: Chromium and its system deps are preinstalled, so there is no apt
+    # or browser download (a slow Ubuntu mirror once hung `playwright install --with-deps` for minutes).
+    # Keep the tag in sync with @playwright/test in package-lock.json; the version check below enforces it.
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.0-noble@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d
     timeout-minutes: 20
     strategy:
       fail-fast: false
@@ -50,7 +55,13 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - name: Check Playwright version matches the container
+        run: |
+          installed=$(node -p "require('@playwright/test/package.json').version")
+          if [ "$installed" != "1.65.0" ]; then
+            echo "::error::@playwright/test is $installed but the CI container is v1.65.0. Update the image in this workflow."
+            exit 1
+          fi
       - run: npx playwright test --shard=${{ matrix.shard }}
       - name: Upload blob report
         if: ${{ !cancelled() }}
