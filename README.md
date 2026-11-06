@@ -1,6 +1,6 @@
 # QA Starter Kit — Playwright + TypeScript
 
-![tests](https://github.com/murillovskfilho/qa-starter-kit/actions/workflows/tests.yml/badge.svg)](https://github.com/murillovskfilho/qa-starter-kit/actions/workflows/tests.yml)
+[![tests](https://github.com/murillovskfilho/qa-starter-kit/actions/workflows/tests.yml/badge.svg)](https://github.com/murillovskfilho/qa-starter-kit/actions/workflows/tests.yml)
 ![Playwright](https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue)
