@@ -1,0 +1,27 @@
+{
+  "name": "qa-starter-kit",
+  "version": "0.1.0",
+  "description": "Production-ready Playwright + TypeScript starter: UI and API tests, typed fixtures, multi-environment config and CI out of the box.",
+  "private": true,
+  "license": "MIT",
+  "author": "Murilo Filho",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --project=chromium",
+    "test:api": "playwright test --project=api",
+    "test:headed": "playwright test --project=chromium --headed",
+    "test:debug": "playwright test --ui",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^22.20.5",
+    "dotenv": "^18.0.9",
+    "typescript": "^7.0.2",
+    "zod": "^4.6.7"
+  }
+}
