@@ -45,6 +45,17 @@ test.describe('Todo list', () => {
     await expect(todoPage.titles).toHaveText([done, pending]);
   });
 
+  test('targets the exact item when titles share a prefix', async ({ todoPage }) => {
+    const short = buildTodoTitle('Pay');
+    const long = `${short} rent`;
+    await todoPage.add(short, long);
+
+    await todoPage.complete(short);
+
+    await expect(todoPage.item(short)).toHaveClass(/completed/);
+    await expect(todoPage.item(long)).not.toHaveClass(/completed/);
+  });
+
   test('renames an item', async ({ todoPage }) => {
     const original = buildTodoTitle('Original');
     const renamed = buildTodoTitle('Renamed');

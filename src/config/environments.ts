@@ -22,15 +22,16 @@ const environments: Record<EnvName, Environment> = {
     baseURL: 'https://demo.playwright.dev/todomvc/',
     apiURL: 'https://jsonplaceholder.typicode.com/',
   },
+  // Placeholder on purpose: running TEST_ENV=staging fails loudly until you set real URLs.
   staging: {
-    baseURL: 'https://demo.playwright.dev/todomvc/',
-    apiURL: 'https://jsonplaceholder.typicode.com/',
+    baseURL: 'https://staging.your-app.example.com/',
+    apiURL: 'https://api.staging.your-app.example.com/',
   },
 };
 
 function resolveEnvName(): EnvName {
   const name = process.env.TEST_ENV ?? 'dev';
-  if (!(name in environments)) {
+  if (!Object.hasOwn(environments, name)) {
     throw new Error(`Unknown TEST_ENV "${name}". Expected one of: ${Object.keys(environments).join(', ')}`);
   }
   return name as EnvName;

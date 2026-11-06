@@ -33,20 +33,20 @@ test.describe('Posts API', () => {
   });
 
   test('DELETE /posts/:id succeeds', async ({ posts }) => {
-    const response = await posts.raw().delete('posts/1');
+    const response = await posts.deleteRaw(1);
 
     expect(response.status()).toBe(200);
   });
 
   test('GET /posts/:id returns 404 for an unknown id', async ({ posts }) => {
-    const response = await posts.raw().get('posts/999999');
+    const response = await posts.getRaw(999999);
 
     expect(response.status()).toBe(404);
   });
 
   for (const invalidId of ['abc', '-1', '0']) {
     test(`GET /posts/${invalidId} does not return a post`, async ({ posts }) => {
-      const response = await posts.raw().get(`posts/${invalidId}`);
+      const response = await posts.getRaw(invalidId);
 
       expect(response.status()).toBe(404);
     });

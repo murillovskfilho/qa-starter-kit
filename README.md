@@ -52,7 +52,8 @@ Other scripts:
 5. **Write specs** that import `test` and `expect` from `src/fixtures`, not from `@playwright/test`.
 6. **Delete the demo specs** in `tests/` once yours are in place.
 
-Switch environments with `TEST_ENV`:
+Switch environments with `TEST_ENV`. The `staging` entry ships with placeholder URLs on purpose,
+so it fails loudly until you point it at your real staging:
 
 ```bash
 TEST_ENV=staging npm test

@@ -34,8 +34,11 @@ export class TodoPage {
     }
   }
 
+  /** Exact title match: 'Pay' must not also match 'Pay rent'. */
   item(title: string): Locator {
-    return this.items.filter({ hasText: title });
+    return this.items.filter({
+      has: this.page.getByTestId('todo-title').getByText(title, { exact: true }),
+    });
   }
 
   async complete(title: string): Promise<void> {
