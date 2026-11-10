@@ -90,6 +90,45 @@ In CI, run the workflow manually and pick the environment from the dropdown.
 └── playwright.config.ts
 ```
 
+## Design decisions and trade-offs
+
+- **Contracts are checked in the client, with strict schemas.** Every `PostsClient` method checks the
+  status and parses the body with a Zod `strictObject`, so specs get typed data and only assert on
+  business rules. Strict means an added or renamed field fails the test, which catches drift early
+  but also fails on harmless additions; loosening a schema has to be a deliberate change. Negative
+  tests use the `*Raw` methods, which return the response unparsed.
+- **Fixtures hand each test a ready page and client.** `todoPage` is created and already opened,
+  `posts` is already bound to the API's base URL, so a spec starts at the behavior it tests. The
+  cost: the page fixture always navigates first, so a test that needs to start somewhere else needs
+  its own fixture.
+- **Parallel by default, made safe by the data.** `fullyParallel` is on, and the factories build every
+  title and payload from a timestamp, the process id and a counter, so tests share nothing and run in
+  any order, in any shard. It only works while every test creates its own data; one test that reuses
+  a fixed record brings back ordering bugs.
+- **Retries in CI, with the evidence kept.** CI retries a failed test twice, records a trace on the
+  first retry, and keeps the screenshot and video on failure; `forbidOnly` stops a stray `test.only`
+  from shrinking the run. The trade-off: a test that passes on retry leaves the build green. The
+  report marks it as flaky, but someone has to read the report.
+- **A locked-down, reproducible pipeline.** Tests run in 2 shards in the official Playwright container,
+  and a final job merges their blob reports into one HTML report. The workflow token is read-only,
+  every action is pinned to a commit SHA, and the container is pinned by digest, with a step that
+  fails if `@playwright/test` in the lockfile and the image version drift apart. The costs: a third
+  job and three `npm ci` runs, which only pay off as the suite grows, and manual upgrades, because
+  the tag, the digest and the package have to move together in one change.
+- **Runs out of the box against public demos.** `dev` points at TodoMVC and JSONPlaceholder, so the
+  kit works before you change a line, and `staging` ships with placeholder URLs so it fails loudly
+  until it is configured. The limits are the demos' limits: the suite depends on third-party sites,
+  JSONPlaceholder does not persist writes (so POST and PUT tests can only check the echoed payload),
+  and the UI project runs on Chromium only.
+
+## What I'd add next
+
+- A spec that proves the contract check works: feed the client a response with an extra field and
+  expect it to fail.
+- An auth setup project that signs in once and reuses the saved session, for apps behind a login.
+- Firefox and WebKit projects, switched on with one line each in `playwright.config.ts`.
+- A demo API that keeps its data, so the create tests can read back what they wrote.
+
 ## Pro version (in development)
 
 **QA Starter Kit Pro** will add AI-assisted tooling on top of this base:
